@@ -1,0 +1,8 @@
+---
+title: Hide C:\inetpub folder
+description: ''
+actions:
+  - !cmd:
+    command: 'attrib +s +h C:\inetpub'
+    runas: 'trustedInstaller'
+    wait: true

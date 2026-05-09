@@ -13,6 +13,7 @@ actions:
     value: 'VerifiedAndReputablePolicyState'
     data: '0'
     type: REG_DWORD
+    option: 'disable-sac'
 
     # Microsoft Edge
   - !writeStatus: {status: 'Removing Microsoft Edge', option: 'uninstall-edge'}

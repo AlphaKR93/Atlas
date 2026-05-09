@@ -14,7 +14,7 @@ param (
 $timeouts = @("--connect-timeout", "10", "--retry", "5", "--retry-delay", "0", "--retry-all-errors")
 $msiArgs = "/qn /quiet /norestart ALLUSERS=1 REBOOT=ReallySuppress"
 $arm = ((Get-CimInstance -Class Win32_ComputerSystem).SystemType -match 'ARM64') -or ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64')
-$toolboxDownloadLatest = "https://github.com/Atlas-OS/atlas-toolbox/releases/latest/download/AtlasToolbox-Setup.exe"
+# $toolboxDownloadLatest = "https://github.com/Atlas-OS/atlas-toolbox/releases/latest/download/AtlasToolbox-Setup.exe"
 
 # Create a temporary directory
 function Remove-TempDirectory { Pop-Location; Remove-Item -Path $tempDir -Force -Recurse -EA 0 }
@@ -24,16 +24,16 @@ Push-Location $tempDir
 
 # Toolbox
 if ($Toolbox -and $env:PATH -notlike '*Atlas Toolbox*') {
-    Write-Output "Downloading Toolbox..."
-    & curl.exe -LSs $toolboxDownloadLatest -o "$tempDir\toolbox.exe" $timeouts
+    # Write-Output "Downloading Toolbox..."
+    # & curl.exe -LSs $toolboxDownloadLatest -o "$tempDir\toolbox.exe" $timeouts
 
-    if (!$?) {
-        Write-Error "Downloading Toolbox failed."
-        exit 1
-    }
+    # if (!$?) {
+    #     Write-Error "Downloading Toolbox failed."
+    #     exit 1
+    # }
 
     Write-Output "Installing Toolbox..."
-    Start-Process -FilePath "$tempDir\toolbox.exe" -WindowStyle Hidden -ArgumentList '/verysilent /install /MERGETASKS="desktopicon"' -Wait
+    Start-Process -FilePath ".\toolbox.exe" -WindowStyle Hidden -ArgumentList '/verysilent /install /MERGETASKS="desktopicon"' -Wait
 
     exit
 }

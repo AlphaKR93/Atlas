@@ -1,0 +1,28 @@
+{
+  "lsp": {
+    "yaml-language-server": {
+      "settings": {
+        "yaml": {
+          "customTags": [
+            "!run: mapping",
+            "!registryKey: mapping",
+            "!registryValue: mapping",
+            "!appx: mapping",
+            "!file: mapping",
+            "!service: mapping",
+            "!scheduledTask: mapping",
+            "!taskKill: mapping",
+            "!systemPackage: mapping",
+            "!cmd: mapping",
+            "!powerShell: mapping",
+            "!download: mapping",
+            "!software: mapping",
+            "!status: mapping",
+            "!writeStatus: mapping",
+            "!task: mapping",
+          ]
+        }
+      }
+    }
+  }
+}

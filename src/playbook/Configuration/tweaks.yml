@@ -25,16 +25,25 @@ actions:
   # to improving network performance, security, etc.
   # -----------------------------------------------------
   - !writeStatus: {status: 'Running networking tweaks'}
-  # Needed for compatibility
-  # - !task: {path: 'tweaks\networking\disable-llmnr.yml'}
+    # Needed for compatibility # Then make it toggleable
+  - !task:
+    path: 'tweaks\networking\disable-llmnr.yml'
+    option: 'disable-llmnr'
   - !task: {path: 'tweaks\networking\atlas-network-settings.yml'}
 
   # -------------------------------------------------------------------------- #
-  #  networking\shares                                                         #
+  #  networking\shares (SMB)                                                   #
   # -------------------------------------------------------------------------- #
-  - !task: {path: 'tweaks\networking\shares\restrict-anonymous-access.yml'}
-  - !task: {path: 'tweaks\networking\shares\restrict-anonymous-enumeration.yml'}
-  - !task: {path: 'tweaks\networking\shares\disable-smb-bandwidth-throttling.yml'}
+    # PATCHED: For users not using SMB entirely
+  - !task:
+    path: 'tweaks\networking\shares\restrict-anonymous-access.yml'
+    option: 'tweak-smb'
+  - !task:
+    path: 'tweaks\networking\shares\restrict-anonymous-enumeration.yml'
+    option: 'tweak-smb'
+  - !task:
+    path: 'tweaks\networking\shares\disable-smb-bandwidth-throttling.yml'
+    option: 'tweak-smb'
 
 
 
@@ -49,9 +58,9 @@ actions:
   - !writeStatus: {status: 'Running performance tweaks'}
   - !task: {path: 'tweaks\performance\config-mmcss.yml'}
   - !task: {path: 'tweaks\performance\disable-auto-folder-discovery.yml'}
-  # - !task: {path: 'tweaks\performance\disable-game-bar.yml'}
+  - !task: {path: 'tweaks\performance\disable-game-bar.yml'}
   - !task: {path: 'tweaks\performance\config-automatic-maintenance.yml'}
-  - !task: {path: 'tweaks\performance\disable-background-apps.yml'}
+  # - !task: {path: 'tweaks\performance\disable-background-apps.yml'}
   - !task: {path: 'tweaks\performance\disable-fth.yml'}
   - !task: {path: 'tweaks\performance\disable-sleep-study.yml'}
   - !task: {path: 'tweaks\performance\respect-power-modes-search.yml'}
@@ -81,7 +90,7 @@ actions:
   # -----------------------------------------------------
   - !writeStatus: {status: 'Running privacy tweaks'}
   - !task: {path: 'tweaks\privacy\config-app-permissions.yml'}
-  - !task: {path: 'tweaks\privacy\config-windows-media-player.yml'}
+  - !task: {path: 'tweaks\privacy\config-windows-media-player.yml', option: 'tweak-wmp'}
   - !task: {path: 'tweaks\privacy\disable-activity-feed.yml'}
   - !task: {path: 'tweaks\privacy\disable-app-launch-tracking.yml'}
   - !task: {path: 'tweaks\privacy\disable-experimentation.yml'}
@@ -106,8 +115,8 @@ actions:
   # -------------------------------------------------------------------------- #
   #  privacy\apps                                                              #
   # -------------------------------------------------------------------------- #
-  - !task: {path: 'tweaks\privacy\apps\disable-nvidia-telemetry.yml'}
-  - !task: {path: 'tweaks\privacy\apps\disable-office-telemetry.yml'}
+  - !task: {path: 'tweaks\privacy\apps\disable-nvidia-telemetry.yml', option: 'tweak-nvidia'}
+  - !task: {path: 'tweaks\privacy\apps\disable-office-telemetry.yml', option: 'tweak-office'}
 
   # -------------------------------------------------------------------------- #
   #  privacy\advertising                                                       #
@@ -182,7 +191,7 @@ actions:
   #  qol\windows-update                                                        #
   # -------------------------------------------------------------------------- #
   - !task: {path: 'tweaks\qol\windows-update\disable-nagging.yml'}
-  - !task: {path: 'tweaks\qol\windows-update\disable-insider.yml'}
+  - !task: {path: 'tweaks\qol\windows-update\disable-insider.yml', option: 'disable-wip'}
   - !task: {path: 'tweaks\qol\windows-update\disable-msrt-telemetry.yml'}
   - !task: {path: 'tweaks\qol\windows-update\disable-feature-updates.yml'}
   - !task: {path: 'tweaks\qol\windows-update\disable-auto-updates.yml'}
@@ -234,7 +243,7 @@ actions:
   - !task: {path: 'tweaks\qol\explorer\show-files.yml'}
   - !task: {path: 'tweaks\qol\explorer\classic-search.yml'}
   - !task: {path: 'tweaks\qol\explorer\dont-show-office-files.yml'}
-  - !task: {path: 'tweaks\qol\explorer\use-compact-mode.yml'}
+  #- !task: {path: 'tweaks\qol\explorer\use-compact-mode.yml'}
   - !task: {path: 'tweaks\qol\explorer\disable-gallery.yml'}
   - !task: {path: 'tweaks\qol\explorer\debloat-send-to.yml'}
   - !task: {path: 'tweaks\qol\explorer\enable-long-paths.yml'}
@@ -242,10 +251,10 @@ actions:
   # -------------------------------------------------------------------------- #
   #  qol\explorer\add-context-menus                                            #
   # -------------------------------------------------------------------------- #
-  - !task: {path: 'tweaks\qol\explorer\add-context-menus\merge-as-trustedinstaller.yml'}
-  - !task: {path: 'tweaks\qol\explorer\add-context-menus\new-bat.yml'}
-  - !task: {path: 'tweaks\qol\explorer\add-context-menus\new-ps1.yml'}
-  - !task: {path: 'tweaks\qol\explorer\add-context-menus\new-reg.yml'}
+  #- !task: {path: 'tweaks\qol\explorer\add-context-menus\merge-as-trustedinstaller.yml'}
+  #- !task: {path: 'tweaks\qol\explorer\add-context-menus\new-bat.yml'}
+  #- !task: {path: 'tweaks\qol\explorer\add-context-menus\new-ps1.yml'}
+  #- !task: {path: 'tweaks\qol\explorer\add-context-menus\new-reg.yml'}
 
   # -------------------------------------------------------------------------- #
   #  qol\explorer\remove-context-menus                                         #
@@ -263,18 +272,18 @@ actions:
   # -------------------------------------------------------------------------- #
   #  qol\security                                                              #
   # -------------------------------------------------------------------------- #
-  - !task: {path: 'tweaks\qol\security\disable-uac-secure-desktop.yml'}
+  #- !task: {path: 'tweaks\qol\security\disable-uac-secure-desktop.yml'}
 
   # -------------------------------------------------------------------------- #
   #  qol\shell                                                                 #
   # -------------------------------------------------------------------------- #
   - !task: {path: 'tweaks\qol\shell\alt-tab-open-windows.yml'}
   - !task: {path: 'tweaks\qol\shell\disable-aero-shake.yml'}
-  - !task: {path: 'tweaks\qol\shell\disable-low-disk-warning.yml'}
+  #- !task: {path: 'tweaks\qol\shell\disable-low-disk-warning.yml'}
   - !task: {path: 'tweaks\qol\shell\disable-menu-delay.yml'}
   - !task: {path: 'tweaks\qol\shell\disable-network-location-wizard.yml'}
   - !task: {path: 'tweaks\qol\shell\set-unpinned-notification-items.yml'}
-  - !task: {path: 'tweaks\qol\shell\restore-old-context-menu.yml'}
+  #- !task: {path: 'tweaks\qol\shell\restore-old-context-menu.yml'}
   - !task: {path: 'tweaks\qol\shell\show-more-pins.yml'}
   - !task: {path: 'tweaks\qol\shell\no-recommendations-start-menu.yml'}
   - !task: {path: 'tweaks\qol\shell\disable-nearby-sharing.yml'}
@@ -286,14 +295,15 @@ actions:
   - !task: {path: 'tweaks\qol\startup-shutdown\decrease-shutdown-time.yml'}
   - !task: {path: 'tweaks\qol\startup-shutdown\disable-startup-delay.yml'}
   # - !task: {path: 'tweaks\qol\startup-shutdown\force-end-shutdown-apps.yml'}
-    # It confused people
-  # - !task: {path: 'tweaks\qol\startup-shutdown\enable-verbose-messages.yml'}
+    # It confused people # I like it
+  - !task: {path: 'tweaks\qol\startup-shutdown\enable-verbose-messages.yml', option: 'enable-verbose-messages'}
 
   # -------------------------------------------------------------------------- #
   #  qol\system                                                                #
   # -------------------------------------------------------------------------- #
   - !task: {path: 'tweaks\qol\system\crash-control-qol.yml'}
   - !task: {path: 'tweaks\qol\system\disable-wpbt.yml'}
+  - !task: {path: 'tweaks\qol\system\hide-inetpub.yml'}
 
 
   # -----------------------------------------------------
