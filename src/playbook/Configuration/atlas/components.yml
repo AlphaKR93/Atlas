@@ -17,6 +17,24 @@ actions:
 
     # Microsoft Edge
   - !writeStatus: {status: 'Removing Microsoft Edge', option: 'uninstall-edge'}
+  - !service: {name: 'edgeupdate', operation: stop, option: 'uninstall-edge', ignoreErrors: true}
+  - !service: {name: 'edgeupdatem', operation: stop, option: 'uninstall-edge', ignoreErrors: true}
+  - !service: {name: 'MicrosoftEdgeUpdate', operation: stop, option: 'uninstall-edge', ignoreErrors: true}
+  - !service: {name: 'MicrosoftEdgeElevationService', operation: stop, option: 'uninstall-edge', ignoreErrors: true}
+  - !service: {name: 'edgeupdate', operation: change, startup: 4, option: 'uninstall-edge', ignoreErrors: true}
+  - !service: {name: 'edgeupdatem', operation: change, startup: 4, option: 'uninstall-edge', ignoreErrors: true}
+  - !service: {name: 'MicrosoftEdgeUpdate', operation: change, startup: 4, option: 'uninstall-edge', ignoreErrors: true}
+  - !service: {name: 'MicrosoftEdgeElevationService', operation: change, startup: 4, option: 'uninstall-edge', ignoreErrors: true}
+  - !cmd:
+    command: 'schtasks /delete /tn "MicrosoftEdgeUpdateTaskMachineCore" /f > nul 2>&1 || exit /b 0'
+    runas: currentUserElevated
+    option: 'uninstall-edge'
+    wait: true
+  - !cmd:
+    command: 'schtasks /delete /tn "MicrosoftEdgeUpdateTaskMachineUA" /f > nul 2>&1 || exit /b 0'
+    runas: currentUserElevated
+    option: 'uninstall-edge'
+    wait: true
   - !powerShell:
     command: '& """.\AtlasModules\Scripts\ScriptWrappers\RemoveEdge.ps1""" -UninstallEdge -RemoveEdgeData -KeepAppX -NonInteractive'
     runas: currentUserElevated
@@ -25,7 +43,7 @@ actions:
     exeDir: true
     # AppX uninstallation in the script seems to fail, therefore it's not used and AME Wizard is used instead
     # Note that AppX Edge is removed from the latest builds of Windows, but people could be running a non-updated version
-  - !appx: {name: 'Microsoft.MicrosoftEdge_8wekyb3d8bbwe', type: family, option: 'uninstall-edge'}
+  - !appx: {name: 'Microsoft.MicrosoftEdge_8wekyb3d8bbwe', type: family, option: 'uninstall-edge', ignoreErrors: true}
   - !registryKey: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.MicrosoftEdge.Stable_8wekyb3d8bbwe', operation: add, option: 'uninstall-edge'}
   - !registryKey: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.MicrosoftEdge_8wekyb3d8bbwe', operation: add, option: 'uninstall-edge'}
 

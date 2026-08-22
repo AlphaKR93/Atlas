@@ -10,22 +10,15 @@ for %%a in (%*) do (
     if /I "%%a"=="/quiet" set "silentMode=1"
 )
 
-if "%silentMode%"=="1" (
-    fltmc > nul 2>&1 || (
-        call RunAsTI.cmd "%~f0" %*
-        exit /b
-    )
-) else (
-    whoami /user | find /i "S-1-5-18" > nul 2>&1 || (
-        call RunAsTI.cmd "%~f0" %*
-        exit /b
-    )
+whoami /user | find /i "S-1-5-18" > nul 2>&1 || (
+    call "%windir%\AtlasModules\Scripts\RunAsTI.cmd" "%~f0" %*
+    exit /b
 )
 
 if not exist "%indexConfPath%" (
     if "%silentMode%"=="0" (
         echo The 'indexConf.cmd' script wasn't found in AtlasModules.
-        pause
+        if /i not "%~1"=="/silent" pause
     )
     exit /b 1
 )
@@ -54,5 +47,5 @@ if "%silentMode%"=="1" exit /b
 echo.
 echo Minimal Search Indexing has been configured.
 echo Press any key to exit...
-pause
+if /i not "%~1"=="/silent" pause
 exit /b

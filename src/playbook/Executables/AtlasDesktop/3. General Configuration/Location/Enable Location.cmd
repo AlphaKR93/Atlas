@@ -34,7 +34,7 @@ call "%windir%\AtlasModules\Scripts\settingsPages.cmd" /unhide privacy-location
 set key1="HKLM\SOFTWARE\Policies\Microsoft\FindMyDevice"
 choice /c:yn /n /m "Would you like to unlock Find My Device functionality? [Y/N] "
 if %errorlevel%==1 (
-    reg delete %key1% /f > nul
+    reg delete %key1% /f > nul 2>&1
     call "%windir%\AtlasModules\Scripts\settingsPages.cmd" /unhide findmydevice /silent
 )
 if %errorlevel%==2 (
@@ -48,5 +48,5 @@ echo.
 echo Location services have been enabled.
 start ms-settings:privacy-location
 echo Press any key to exit...
-pause
+if /i not "%~1"=="/silent" pause
 exit /b

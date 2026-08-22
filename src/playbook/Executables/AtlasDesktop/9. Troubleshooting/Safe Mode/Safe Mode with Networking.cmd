@@ -2,7 +2,7 @@
 :: Change to match the setting name (e.g., Sleep, Indexing, etc.)
 set "settingName=SafeMode"
 :: Change to 0 (Disabled) or 1 (Enabled/Minimal) etc
-set "stateValue==2"
+set "stateValue=2"
 set "scriptPath=%~f0"
 
 set "___args="%~f0" %*"
@@ -25,5 +25,5 @@ reg add "HKLM\SOFTWARE\AtlasOS\Services\%settingName%" /v path /t REG_SZ /d "%sc
 bcdedit /set {current} safeboot network > nul
 
 echo Finished, please reboot your device for changes to apply.
-pause
+if /i not "%~1"=="/silent" pause
 exit /b

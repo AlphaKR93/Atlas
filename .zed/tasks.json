@@ -1,0 +1,34 @@
+[
+  {
+    "label": "Build Playbook (Test)",
+    "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"${ZED_WORKTREE_ROOT}/src/dependencies/local-build.ps1\" -AddLiveLog -ReplaceOldPlaybook -Removals WinverRequirement Verification",
+    "cwd": "${ZED_WORKTREE_ROOT}/src/playbook",
+    "reveal": "always",
+    "hide": "on_success",
+    "shell": "system"
+  },
+  {
+    "label": "Build Playbook (Test w/o deps)",
+    "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"${ZED_WORKTREE_ROOT}/src/dependencies/local-build.ps1\" -AddLiveLog -ReplaceOldPlaybook -Removals Dependencies WinverRequirement Verification",
+    "cwd": "${ZED_WORKTREE_ROOT}/src/playbook",
+    "reveal": "always",
+    "hide": "on_success",
+    "shell": "system"
+  },
+  {
+    "label": "Build Playbook (Release)",
+    "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"${ZED_WORKTREE_ROOT}/src/dependencies/local-build.ps1\" -FileName 'Atlas Release'",
+    "cwd": "${ZED_WORKTREE_ROOT}/src/playbook",
+    "reveal": "always",
+    "hide": "on_success",
+    "shell": "system"
+  },
+  {
+    "label": "Build Playbook (Release Candidate)",
+    "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"${ZED_WORKTREE_ROOT}/src/dependencies/local-build.ps1\" -FileName 'Atlas RC' -ReplaceOldPlaybook -Removals Verification",
+    "cwd": "${ZED_WORKTREE_ROOT}/src/playbook",
+    "reveal": "always",
+    "hide": "on_success",
+    "shell": "system"
+  }
+]

@@ -24,7 +24,7 @@ if "%~1" neq "/silent" (
     echo Task Manager will display CPU usage as 100%% always, due to how Task Manager calculates CPU percentage.
     echo It does not occur in other tools such as Process Explorer, System Informer or Process Hacker.
     echo.
-    pause
+    if /i not "%~1"=="/silent" pause
     cls
 )
 
@@ -37,7 +37,7 @@ powercfg /setactive scheme_current
 if "%~1"=="/silent" exit /b
 
 echo Finished, changes have been applied.
-pause
+if /i not "%~1"=="/silent" pause
 exit /b
 
 :hyperThreading
@@ -51,13 +51,13 @@ mode con: cols=46 lines=13
 
 echo.
 echo %ESC%[32m         Hyper Threading/SMT Detected
-echo   ──────────────────────────────────────────%ESC%[0m
+echo   ------------------------------------------%ESC%[0m
 echo   You %ESC%[1mshould not disable idle states %ESC%[0mwhen
 echo   this feature is enabled as it makes the
 echo   overall CPU performance much worse.
 echo.
 echo   It can be disabled by using BIOS.
-echo   Instead of disabling idle, consider 
+echo   Instead of disabling idle, consider
 echo   disabling C-states in BIOS.
 echo.
 echo            %ESC%[1m%ESC%[33mPress any key to exit...      %ESC%[?25l

@@ -39,22 +39,25 @@ del /f /q "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Process Explorer.
 
 :: Check if Task Manager is still broken
 
+:: Close Task Manager before the validation check so it doesn't stay open while upgrading/installing.
+taskkill /F /IM taskmgr.exe > nul 2>&1
+
 taskmgr.exe > nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
     echo Warning: Task Manager is still not working, applying fallback fix...
 
-    reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe" /v "Debugger" /f > nul
+    reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe" /v "Debugger" /f > nul 2>&1
     del /f /q "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Process Explorer.lnk" > nul
     winget uninstall -e --id Microsoft.Sysinternals.ProcessExplorer --force --purge --disable-interactivity --accept-source-agreements -h > nul 2>&1
     sc config pcw start=boot > nul
 
     echo Fallback fix applied. Please restart your computer for the changes to take effect.
-    pause
+    if /i not "%~1"=="/silent" pause
 )
 if "%~1"=="/silent" (
-    taskkill /IM taskmgr.exe
+    taskkill /F /IM taskmgr.exe > nul 2>&1
     exit /b
 )
 echo Finished, changes have been applied.
-pause
+if /i not "%~1"=="/silent" pause
 exit /b

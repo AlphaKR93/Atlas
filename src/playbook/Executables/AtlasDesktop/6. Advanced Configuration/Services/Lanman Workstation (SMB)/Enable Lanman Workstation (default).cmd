@@ -32,11 +32,13 @@ call setSvc.cmd mrxsmb20 3
 call setSvc.cmd rdbss 1
 call setSvc.cmd srv2 3
 
-DISM /Online /Enable-Feature /FeatureName:"SmbDirect" /NoRestart
+dism /online /get-featureinfo /featurename:"SmbDirect" >nul 2>&1
+if %errorlevel% equ 0 DISM /Online /Enable-Feature /FeatureName:"SmbDirect" /NoRestart
+
 
 if "%~1" == "/silent" exit /b
 
 echo]
 echo Finished, please reboot your device for changes to apply.
-pause
+if /i not "%~1"=="/silent" pause
 exit /b

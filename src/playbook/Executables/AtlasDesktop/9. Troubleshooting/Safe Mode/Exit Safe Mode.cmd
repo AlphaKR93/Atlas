@@ -2,7 +2,7 @@
 :: Change to match the setting name (e.g., Sleep, Indexing, etc.)
 set "settingName=SafeMode"
 :: Change to 0 (Disabled) or 1 (Enabled/Minimal) etc
-set "stateValue==0"
+set "stateValue=0"
 set "scriptPath=%~f0"
 
 set "___args="%~f0" %*"
@@ -26,5 +26,5 @@ bcdedit /deletevalue {current} safeboot > nul 2>&1
 bcdedit /deletevalue {current} safebootalternateshell > nul 2>&1
 
 echo Finished, please reboot your device for changes to apply.
-pause
+if /i not "%~1"=="/silent" pause
 exit /b

@@ -2,7 +2,7 @@
 :: Change to match the setting name (e.g., Sleep, Indexing, etc.)
 set "settingName=LockScreen"
 :: Change to 0 (Disabled) or 1 (Enabled/Minimal) etc
-set "stateValue=1"
+set "stateValue=0"
 set "scriptPath=%~f0"
 
 set "___args="%~f0" %*"
@@ -23,6 +23,8 @@ reg add "HKLM\SOFTWARE\AtlasOS\Services\%settingName%" /v path /t REG_SZ /d "%sc
 :: End of state and path update
 
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /t REG_DWORD /v NoLockScreen /d "1" /f > nul
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /t REG_DWORD /v NoChangingLockScreen /d "1" /f > nul
+
 if "%~1"=="/silent" exit /b
 
 echo Changes applied successfully.
