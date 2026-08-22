@@ -15,9 +15,11 @@
             "!systemPackage: mapping",
             "!cmd: mapping",
             "!powerShell: mapping",
+            "!download: mapping",
+            "!software: mapping",
+            "!status: mapping",
             "!writeStatus: mapping",
-            "!writeStatus mapping",
-            "!task: mapping"
+            "!task: mapping",
           ]
         }
       }

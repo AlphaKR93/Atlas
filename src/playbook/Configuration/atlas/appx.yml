@@ -53,7 +53,7 @@ actions:
   - !appx: {name: 'Microsoft.BingFinance*', type: family}
   - !appx: {name: 'Microsoft.BingSports*', type: family}
   - !appx: {name: 'Microsoft.BingSearch*', type: family}
-  - !appx: {name: 'Microsoft.OutlookForWindows*', type: family}
+  #- !appx: {name: 'Microsoft.OutlookForWindows*', type: family}
   - !appx: {name: 'Microsoft.GetHelp*', type: family}
   - !appx: {name: 'Microsoft.Microsoft3DViewer*', type: family}
   - !appx: {name: 'Microsoft.MicrosoftOfficeHub*', type: family}
@@ -66,12 +66,12 @@ actions:
   - !appx: {name: 'Microsoft.PowerAutomateDesktop*', type: family}
   - !appx: {name: 'Microsoft.ScreenSketch*', type: family, option: 'remove-snipping-tool'}
   - !appx: {name: 'Microsoft.SkypeApp*', type: family}
-  - !appx: {name: 'Microsoft.Todos*', type: family}
+  #- !appx: {name: 'Microsoft.Todos*', type: family}
   - !appx: {name: 'Microsoft.Wallet*', type: family}
   - !appx: {name: 'Microsoft.Whiteboard*', type: family}
   - !appx: {name: 'Microsoft.WindowsAlarms*', type: family}
   - !appx: {name: 'Microsoft.WindowsCamera*', type: family}
-  - !appx: {name: 'Microsoft.WindowsFeedbackHub*', type: family}
+  #- !appx: {name: 'Microsoft.WindowsFeedbackHub*', type: family}
   - !appx: {name: 'Microsoft.WindowsMaps*', type: family}
   - !appx: {name: 'Microsoft.WindowsSoundRecorder*', type: family}
   - !appx: {name: 'Microsoft.StartExperiencesApp*', type: family}
@@ -86,7 +86,11 @@ actions:
   # Prevent provisioned applications from being reinstalled
   # https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update
   - !powerShell:
-    command: '& (Join-Path ([Environment]::GetFolderPath(''Windows'')) ''AtlasModules\Scripts\Tasks\Set-AppxDeprovisionedPackages.ps1'')'
+    command: |
+      $a = """$([Environment]::GetFolderPath('Windows'))\AtlasModules\AtlasPackagesOld.txt"""
+      (diff (gc $a) ((Get-AppxPackage).PackageFamilyName)).InputObject |
+        Foreach-Object { New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned" -Name $_ -Force };
+      Remove-Item $a -Force
     runas: currentUserElevated
     wait: true
 

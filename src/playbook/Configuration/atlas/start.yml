@@ -10,7 +10,11 @@ actions:
   ################ NO LOCAL BUILD ################
 
   - !writeStatus: {status: 'Enabling DirectPlay'}
-  - !run: {exe: 'DISM.exe', args: '/Online /Enable-Feature /FeatureName:"DirectPlay" /NoRestart /All', weight: 30}
+  - !run:
+    exe: 'DISM.exe'
+    args: '/Online /Enable-Feature /FeatureName:"DirectPlay" /NoRestart /All'
+    weight: 30
+    option: 'enable-directplay'
 
   - !run: {exe: 'DISM.exe', args: '/Online /Remove-Capability /CapabilityName:"App.StepsRecorder~~~~0.0.1.0" /NoRestart', weight: 30, onUpgrade: false}
 
@@ -26,6 +30,7 @@ actions:
     wait: true
     onUpgrade: false
     weight: 150
+    option: 'install-utilities'
     runas: currentUserElevated
 
     # Toolbox
